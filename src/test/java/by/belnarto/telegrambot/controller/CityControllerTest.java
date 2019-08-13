@@ -22,8 +22,7 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,6 +34,9 @@ public class CityControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @MockBean
     private CityService cityService;
 
@@ -45,9 +47,9 @@ public class CityControllerTest {
     public void findAllCities() throws Exception {
         City city1 = new City(1L, "Test City1", "Gotham is under batman protection");
         City city2 = new City(2L, "Test City2", "Gotham is under batman protection");
-        given(cityService.findAll()).willReturn(Arrays.asList(city1,city2));
-        given(cityMapper.toDto(city1)).willReturn(new CityDto(1L,"Test City1", "Gotham is under batman protection"));
-        given(cityMapper.toDto(city2)).willReturn(new CityDto(2L,"Test City2", "Gotham is under batman protection"));
+        given(cityService.findAll()).willReturn(Arrays.asList(city1, city2));
+        given(cityMapper.toDto(city1)).willReturn(new CityDto(1L, "Test City1", "Gotham is under batman protection"));
+        given(cityMapper.toDto(city2)).willReturn(new CityDto(2L, "Test City2", "Gotham is under batman protection"));
         mvc.perform(get("/api/v1/cities")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"))
@@ -57,10 +59,10 @@ public class CityControllerTest {
     }
 
     @Test
-    public void findTransactionById() throws Exception {
+    public void findCityById() throws Exception {
         City city = new City(5L, "Test City", "Gotham is under batman protection");
         given(cityService.findById(5L)).willReturn(Optional.of(city));
-        given(cityMapper.toDto(city)).willReturn(new CityDto(5L,"Test City", "Gotham is under batman protection"));
+        given(cityMapper.toDto(city)).willReturn(new CityDto(5L, "Test City", "Gotham is under batman protection"));
         mvc.perform(get("/api/v1/cities/5")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"))
@@ -79,7 +81,6 @@ public class CityControllerTest {
         given(cityService.save(city)).willReturn(cityAfterSaving);
         given(cityMapper.toDto(cityAfterSaving)).willReturn(cityDtoAfterSaving);
 
-        ObjectMapper mapper = new ObjectMapper();
         mvc.perform(post("/api/v1/cities")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
@@ -88,5 +89,35 @@ public class CityControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(cityAfterSaving.getId().intValue())));
 
+    }
+
+    @Test
+    public void updateCity() throws Exception {
+        CityDto cityDto = new CityDto(4L, "Gotham", "But the Joker is one step ahead.");
+        City city = new City(4L, "Gotham", "Gotham is under batman protection.");
+        City cityAfterSaving = new City(4L, "Gotham", "But the Joker is one step ahead.");
+        given(cityService.findById(4L)).willReturn(Optional.of(city));
+        given(cityMapper.toEntity(cityDto)).willReturn(city);
+        given(cityService.update(city)).willReturn(cityAfterSaving);
+        given(cityMapper.toDto(cityAfterSaving)).willReturn(cityDto);
+
+        mvc.perform(put("/api/v1/cities/4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(mapper.writeValueAsString(cityDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].cityInfo", is(cityAfterSaving.getCityInfo())));
+
+    }
+
+    @Test
+    public void deleteCity() throws Exception {
+        City city = new City(2L, "Москва", "Не забудьте посетить Красную Площадь. Ну а в ЦУМ можно и не заходить)))");
+        given(cityService.findById(2L)).willReturn(Optional.of(city));
+        mvc.perform(delete("/api/v1/cities/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isOk());
     }
 }

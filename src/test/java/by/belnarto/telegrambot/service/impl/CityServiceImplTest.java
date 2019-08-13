@@ -29,13 +29,13 @@ public class CityServiceImplTest {
         Optional<City> city = cityService.findById(1L);
         cityService.delete(city.orElseThrow(RuntimeException::new));
         List<City> cities = cityService.findAll();
-        assertEquals(cities.size(), 2);
+        assertEquals(cities.size(), 3);
     }
 
     @Test
     public void findAll() {
         List<City> cities = cityService.findAll();
-        assertEquals(cities.size(), 2);
+        assertEquals(cities.size(), 3);
     }
 
     @Test
