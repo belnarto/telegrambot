@@ -10,8 +10,8 @@
     </parent>
     <groupId>by.belnarto</groupId>
     <artifactId>telegrambot</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
+    <version>1.2</version>
+    <packaging>war</packaging>
     <name>telegrambot</name>
     <description>Telegram bot by belnarto</description>
 
@@ -53,6 +53,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>4.4.0.1</version>
         </dependency>
     </dependencies>
 

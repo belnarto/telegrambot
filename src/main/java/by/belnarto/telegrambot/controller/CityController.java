@@ -4,20 +4,16 @@ import by.belnarto.telegrambot.model.City;
 import by.belnarto.telegrambot.model.CityDto;
 import by.belnarto.telegrambot.service.CityService;
 import by.belnarto.telegrambot.service.mapper.CityMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class CityController {
 
     private CityService cityService;
@@ -52,7 +49,7 @@ public class CityController {
 
     @PostMapping(value = "/cities")
     public ResponseEntity<List<CityDto>> createCity(
-            @RequestBody CityDto cityDto) {
+            @Valid @RequestBody CityDto cityDto) {
         try {
             City city = cityMapper.toEntity(cityDto);
             city = cityService.save(city);
@@ -80,7 +77,7 @@ public class CityController {
 
     @PutMapping(value = "/cities/{cityId}")
     public ResponseEntity<List<CityDto>> updateCity(@PathVariable("cityId") Long cityId,
-                                                    @RequestBody CityDto cityDto) {
+                                                    @Valid @RequestBody CityDto cityDto) {
 
         Optional<City> cityOptional = cityService.findById(cityId);
 
@@ -118,4 +115,16 @@ public class CityController {
         }
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
 }

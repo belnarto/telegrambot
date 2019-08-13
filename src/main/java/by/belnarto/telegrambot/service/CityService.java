@@ -10,6 +10,8 @@ public interface CityService {
 
     Optional<City> findById(Long id);
 
+    Optional<City> findByCityName(String cityName);
+
     City save(City city);
 
     void delete(City city);

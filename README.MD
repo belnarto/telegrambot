@@ -22,3 +22,7 @@ REST:
 | /api/v1/cities/{cityId}   | GET       | get specific city     |
 | /api/v1/cities/{cityId}   | PUT       | update specific city  |
 | /api/v1/cities/{cityId}   | DELETE    | delete specific city  |
+
+cityHelperBelnartoBot:
+978393601:AAGAdOSAbnsQYyVHA7pi-dZ9UZGHTvj46Sc
+
