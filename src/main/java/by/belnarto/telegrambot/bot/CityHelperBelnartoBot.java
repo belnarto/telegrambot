@@ -4,8 +4,8 @@ import by.belnarto.telegrambot.model.City;
 import by.belnarto.telegrambot.model.CityDto;
 import by.belnarto.telegrambot.service.CityService;
 import by.belnarto.telegrambot.service.mapper.CityMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class CityHelperBelnartoBot extends TelegramLongPollingBot {
 
     private TelegramBotsApi telegramBotsApi;
@@ -37,7 +38,7 @@ public class CityHelperBelnartoBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
+    public void onUpdateReceived(final Update update) {
         String inMessage;
         String chatId;
 
@@ -77,7 +78,7 @@ public class CityHelperBelnartoBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMsg(String chatId, String s) {
+    private void sendMsg(final String chatId, final String s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
@@ -86,7 +87,7 @@ public class CityHelperBelnartoBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            //log.log(Level.SEVERE, "Exception: ", e.toString());
+            log.error("Error during sending message.", e);
         }
     }
 
@@ -100,7 +101,7 @@ public class CityHelperBelnartoBot extends TelegramLongPollingBot {
         return "978393601:AAGAdOSAbnsQYyVHA7pi-dZ9UZGHTvj46Sc";
     }
 
-    private void setButtons(SendMessage sendMessage) {
+    private void setButtons(final SendMessage sendMessage) {
         // Создаем клавиуатуру
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -133,7 +134,7 @@ public class CityHelperBelnartoBot extends TelegramLongPollingBot {
         try {
             telegramBotsApi.registerBot(this);
         } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
+            log.error("Error occurred during bot registration.", e);
         }
     }
 

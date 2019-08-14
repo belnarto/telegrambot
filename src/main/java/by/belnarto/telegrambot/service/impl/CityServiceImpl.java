@@ -41,7 +41,6 @@ public class CityServiceImpl implements CityService {
         cityRepository.delete(city);
     }
 
-    //TODO refactor
     @Override
     public City update(final City updatedCity) throws CityNotFoundException {
         City city = cityRepository.findById(updatedCity.getId()).orElseThrow(CityNotFoundException::new);

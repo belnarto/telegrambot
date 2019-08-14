@@ -32,16 +32,13 @@
         </rollingPolicy>
     </appender>
 
-    <!-- LOG everything at INFO level -->
-    <root level="info">
+    <root level="warn">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>
 
-    <!-- LOG "by.belnarto.telegrambot*" at TRACE level -->
-    <logger name="by.belnarto.telegrambot" level="trace" additivity="false">
+    <logger name="by.belnarto.telegrambot" level="debug" additivity="false">
         <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
     </logger>
 
 </configuration>

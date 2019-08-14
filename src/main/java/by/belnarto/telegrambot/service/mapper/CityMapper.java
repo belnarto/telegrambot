@@ -16,11 +16,11 @@ public class CityMapper {
         this.mapper = modelMapper;
     }
 
-    public City toEntity(CityDto cityDto) {
+    public City toEntity(final CityDto cityDto) {
         return Objects.isNull(cityDto) ? null : mapper.map(cityDto, City.class);
     }
 
-    public CityDto toDto(City city) {
+    public CityDto toDto(final City city) {
         return Objects.isNull(city) ? null : mapper.map(city, CityDto.class);
     }
 }

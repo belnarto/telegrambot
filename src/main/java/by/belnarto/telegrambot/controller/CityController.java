@@ -35,12 +35,13 @@ public class CityController {
 
     @GetMapping(value = "/cities")
     public ResponseEntity<List<CityDto>> findAllCities(
-            @RequestParam Map<String, String> allParams) {
+            @RequestParam final Map<String, String> allParams) {
 
         if (allParams.isEmpty()) {
             List<CityDto> cities = cityService.findAll().stream()
                     .map(city -> cityMapper.toDto(city))
                     .collect(Collectors.toList());
+            log.warn("test");
             return new ResponseEntity<>(cities, HttpStatus.OK);
         }
 
@@ -49,7 +50,7 @@ public class CityController {
 
     @PostMapping(value = "/cities")
     public ResponseEntity<List<CityDto>> createCity(
-            @Valid @RequestBody CityDto cityDto) {
+            @Valid @RequestBody final CityDto cityDto) {
         try {
             City city = cityMapper.toEntity(cityDto);
             city = cityService.save(city);
@@ -63,7 +64,7 @@ public class CityController {
 
     @GetMapping(value = "/cities/{cityId}")
     public ResponseEntity<List<CityDto>> findCityById(
-            @PathVariable("cityId") Long cityId) {
+            @PathVariable("cityId") final Long cityId) {
 
         Optional<City> cityOptional = cityService.findById(cityId);
         if (cityOptional.isPresent()) {
@@ -76,8 +77,8 @@ public class CityController {
     }
 
     @PutMapping(value = "/cities/{cityId}")
-    public ResponseEntity<List<CityDto>> updateCity(@PathVariable("cityId") Long cityId,
-                                                    @Valid @RequestBody CityDto cityDto) {
+    public ResponseEntity<List<CityDto>> updateCity(@PathVariable("cityId") final Long cityId,
+                                                    @Valid @RequestBody final CityDto cityDto) {
 
         Optional<City> cityOptional = cityService.findById(cityId);
 
@@ -99,7 +100,7 @@ public class CityController {
     }
 
     @DeleteMapping(value = "/cities/{cityId}")
-    public ResponseEntity deleteCity(@PathVariable("cityId") Long cityId) {
+    public ResponseEntity deleteCity(@PathVariable("cityId") final Long cityId) {
 
         Optional<City> cityOptional = cityService.findById(cityId);
 
@@ -118,9 +119,9 @@ public class CityController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+            final MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);

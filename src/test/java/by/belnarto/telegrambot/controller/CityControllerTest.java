@@ -72,6 +72,15 @@ public class CityControllerTest {
     }
 
     @Test
+    public void cityNotFoundById() throws Exception {
+        given(cityService.findById(999L)).willReturn(Optional.empty());
+        mvc.perform(get("/api/v1/cities/5")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void createCity() throws Exception {
         CityDto cityDto = new CityDto(0L, "Azgard", "Azgard is fallen.");
         CityDto cityDtoAfterSaving = new CityDto(5L, "Azgard", "Azgard is fallen.");
@@ -88,6 +97,18 @@ public class CityControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(cityAfterSaving.getId().intValue())));
+
+    }
+
+    @Test
+    public void createNotValidCity() throws Exception {
+        CityDto cityDto = new CityDto(0L, "", "Azgard is fallen.");
+
+        mvc.perform(post("/api/v1/cities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(mapper.writeValueAsString(cityDto)))
+                .andExpect(status().isBadRequest());
 
     }
 

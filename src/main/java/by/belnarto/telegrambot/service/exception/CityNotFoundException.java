@@ -5,15 +5,15 @@ public class CityNotFoundException extends Exception {
         super();
     }
 
-    public CityNotFoundException(String message) {
+    public CityNotFoundException(final String message) {
         super(message);
     }
 
-    public CityNotFoundException(String message, Throwable cause) {
+    public CityNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public CityNotFoundException(Throwable cause) {
+    public CityNotFoundException(final Throwable cause) {
         super(cause);
     }
 }
