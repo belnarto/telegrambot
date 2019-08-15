@@ -1,3 +1,12 @@
+Technologies used :
+
+    * JDK 1.8
+    * Spring Boot 2.1.7
+    * H2
+    * JUnit 4
+    * Maven
+    * IntelliJ IDEA
+
 Задача:
 
 Необходимо создать web приложение по управлению собственным туристическим телеграм ботом.
@@ -22,7 +31,7 @@
     3) Опционально: для проверки REST использовать telegrambot.postman_collection.json
     открыть его в POSTMAN и прогнать тесты.
 
-REST(without jwt token) spec:
+REST (without jwt token) spec:
 
 | URL                       | Method    | Resources             |
 | ---------                 | -----     | --------              |
