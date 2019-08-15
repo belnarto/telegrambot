@@ -13,7 +13,16 @@
     5) Исходный код приложения должен быть залит на GitHub, в файле readme указать,
     что необходимо для запуска (в том числе имя телеграм бота и его токен).
 
-REST:
+Для запуска необходимо:
+
+    1) Скачать и запустить telegrambot-1.4.jar
+    2) Найти в телеграмме бота с именем cityHelperBelnartoBot.
+    Воспользоваться им.
+    Токен бота: 978393601:AAGAdOSAbnsQYyVHA7pi-dZ9UZGHTvj46Sc
+    3) Опционально: для проверки REST использовать telegrambot.postman_collection.json
+    открыть его в POSTMAN и прогнать тесты.
+
+REST(without jwt token) spec:
 
 | URL                       | Method    | Resources             |
 | ---------                 | -----     | --------              |
@@ -22,7 +31,3 @@ REST:
 | /api/v1/cities/{cityId}   | GET       | get specific city     |
 | /api/v1/cities/{cityId}   | PUT       | update specific city  |
 | /api/v1/cities/{cityId}   | DELETE    | delete specific city  |
-
-cityHelperBelnartoBot:
-978393601:AAGAdOSAbnsQYyVHA7pi-dZ9UZGHTvj46Sc
-

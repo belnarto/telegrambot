@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "8832a95f-112c-422b-a860-6a059fb5dbcb",
+		"name": "telegrambot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all cities succesful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07e94e83-c482-498b-b068-f9b594418453",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200);\r",
+							"\r",
+							"if (responseCode.code === 200) {\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"    tests['Transactions more than 0'] = (jsonData.length > 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get specific city succesful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07e94e83-c482-498b-b068-f9b594418453",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200);\r",
+							"\r",
+							"if (responseCode.code === 200) {\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"    tests['Transactions more than 0'] = (jsonData.length > 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/cities/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cities",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create city succesful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e03628b-42ff-42a6-840b-8e4b17d77fea",
+						"exec": [
+							"pm.test(\"Successful recharge transaction creation\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cityName\": \"Azgard\",\r\n    \"cityInfo\": \"Azgard is fallen.\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update city succesful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e03628b-42ff-42a6-840b-8e4b17d77fea",
+						"exec": [
+							"pm.test(\"Successful recharge transaction creation\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 4,\r\n    \"cityName\": \"Gotham\",\r\n    \"cityInfo\": \"But the Joker is one step ahead.\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/cities/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cities",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete specific city succesful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07e94e83-c482-498b-b068-f9b594418453",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/cities/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cities",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

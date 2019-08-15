@@ -41,7 +41,6 @@ public class CityController {
             List<CityDto> cities = cityService.findAll().stream()
                     .map(city -> cityMapper.toDto(city))
                     .collect(Collectors.toList());
-            log.warn("test");
             return new ResponseEntity<>(cities, HttpStatus.OK);
         }
 

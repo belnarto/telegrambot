@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS" value="./logs" />
+    <property name="LOGS" value="${telegrambotLogDir}${file.separator}"/>
 
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -14,7 +14,7 @@
 
     <appender name="RollingFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/spring-boot-logger.log</file>
+        <file>${LOGS}telegrambot.log</file>
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
@@ -23,7 +23,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOGS}archived${file.separator}telegrambot-%d{yyyy-MM-dd}.%i.log.gz
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -32,13 +32,16 @@
         </rollingPolicy>
     </appender>
 
-    <root level="warn">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
+    <root level="info">
+        <appender-ref ref="RollingFile"/>
     </root>
 
-    <logger name="by.belnarto.telegrambot" level="debug" additivity="false">
-        <appender-ref ref="RollingFile" />
+    <logger name="by.belnarto.telegrambot" level="info" additivity="false">
+        <appender-ref ref="RollingFile"/>
+    </logger>
+
+    <logger name="by.belnarto.telegrambot" level="warn" additivity="false">
+        <appender-ref ref="Console"/>
     </logger>
 
 </configuration>
