@@ -1,3 +1,6 @@
+Демо REST: http://87.252.246.155:8080/telegrambot
+Демо бот: @cityHelperBelnartoBot
+
 Technologies used :
 
     * JDK 1.8
